@@ -6,17 +6,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
     <script>
-        var rpsArray = [
+        const rpsArray = [
             'Rock',
             'Paper',
             'Scissors',
         ]
         // pick a random element from rpsArray
-        var randomItem = rpsArray[Math.floor(Math.random()*rpsArray.length)];
         function computerPlay(){
-
+            let computerSelection = rpsArray[Math.floor(Math.random()*rpsArray.length)];
+            return computerSelection;
         }
 
+        let playerCounter = 0;
+        let computerCounter =0;
+
+        function playRound(){
+            const playerSelection = prompt("Choose between Rock, Papper or Scissors", ' ');
+            const computerSelection = computerPlay();
+
+            if ((playerSelection.toUpperCase() == 'ROCK' && computerSelection == 'Scissors')||
+            (playerSelection.toUpperCase() == 'SCISSORS' && computerSelection == 'Paper')||
+            (playerSelection.toUpperCase() == 'PAPER' && computerSelection == 'Rock')){
+
+                playerCounter++;
+                let result = `You win the round! ${playerSelection} beats ${computerSelection}`;
+                return result;
+            } else if ((playerSelection.toUpperCase() == 'ROCK' && computerSelection == 'Paper')||
+                (playerSelection.toUpperCase() == 'SCISSORS' && computerSelection == 'Rock')||
+                playerSelection.toUpperCase() == 'PAPER' && computerSelection == 'Scissors'){
+
+                    computerCounter++;
+                    let result = `You lose the round! ${computerSelection} beats ${playerSelection}`
+                    return result;
+                    } else {
+                            let result = "It's a tie!";
+                            return result;
+                        }
+                    }                  
+        
+         function game(){
+             console.log(playRound());
+         }
+
+         function endGame(){
+            if (playerCounter > computerCounter) {
+                return `You win the game and beat the computer by ${playerCounter} to ${computerCounter}`;
+            } else if (playerCounter < computerCounter) {
+                return `You lose the game! The computer beats you by ${computerCounter} to ${playerCounter}`; 
+            }  else {
+                return "It's a tie!"
+            }
+        }
+        
+        for (let roundNumber = 0; roundNumber < 5; roundNumber++){
+                game();
+                }
+            
+        console.log(endGame());   
+        
+    
     </script>
 
 </head>
