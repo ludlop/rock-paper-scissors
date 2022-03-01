@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+
+</head>
+<body>
+
+    <div class="wrapper">
+        <button class="btn">Rock</button>
+        <button class="btn">Paper</button>
+        <button class="btn">Scissors</button>
+    </div>
+    <div id="scores"></div>
+        <div class="parcialScore"></div>
+        <div class="finalScore"></div>
+    <div id="resultDiv">
+    </div>
+
+    <div class="reset">
+        <button class="resetBtn">Reset game</button>
+    </div>
+
+    <script>
+        const rpsArray = [
+            'Rock',
+            'Paper',
+            'Scissors',
+        ];
+        
+        let playerCounter = 0;
+        let computerCounter = 0;
+        let resultDiv = document.querySelector('#resultDiv');
+        let scoresDiv = document.querySelector('#scores');
+        let parcialScoreDiv = document.querySelector('.parcialScore');
+        let finalScoreDiv = document.querySelector('.finalScore');
+        let reset = document.querySelector('.resetBtn')
+        let playerSelection = '';
+
+        //Computer picks a random element from rpsArray
+        function computerPlay(){
+            let computerSelection = rpsArray[Math.floor(Math.random()*rpsArray.length)];
+            return computerSelection;
+        };
+
+        const choices = document.querySelectorAll('.btn');
+        choices.forEach((currentBtn) => {
+            currentBtn.addEventListener('click', () => {
+                // Player picks Rock / Paper / Scissors
+                playerSelection = currentBtn.textContent;
+                // Plays the game with button click
+                playRound(playerSelection);
+                playFullGame();
+            });    
+        });
+       
+       
+        function playRound(playerSelection){
+            const computerSelection = computerPlay();
+            
+            if ((playerSelection == 'Rock' && computerSelection == 'Scissors')||
+            (playerSelection == 'Scissors' && computerSelection == 'Paper')||
+            (playerSelection == 'Paper' && computerSelection == 'Rock')){
+
+                playerCounter++;
+                let result = `You win the round! ${playerSelection} beats ${computerSelection}`;
+                return resultDiv.textContent = result;
+            } else if ((playerSelection == 'Rock' && computerSelection == 'Paper')||
+                (playerSelection == 'Scissors' && computerSelection == 'Rock')||
+                playerSelection == 'Paper' && computerSelection == 'Scissors'){
+
+                    computerCounter++;
+                    let result = `You lose the round! ${computerSelection} beats ${playerSelection}`
+                    return resultDiv.textContent = result;
+            } else if (playerSelection == computerSelection) {
+                    let result = "It's a tie round!";
+                    return resultDiv.textContent = result;
+            };
+        };                  
+        
+         function playFullGame(){
+             for (i = 0; i < 6; i++) {// A full game consists in 5 rounds
+             playRound();
+             parcialScoreDiv.textContent = `User score: ${playerCounter} Computer score ${computerCounter}`
+             };
+             if (computerCounter == 5 || playerCounter == 5) {
+                 endGame();
+            };
+
+         function endGame(){
+            if (playerCounter > computerCounter) {
+                return finalScoreDiv.textContent = `You win the game and beat the computer by ${playerCounter} to ${computerCounter}`;
+            } else if (playerCounter < computerCounter) {
+                return finalScoreDiv.textContent = `You lose the game! The computer beats you by ${computerCounter} to ${playerCounter}`; 
+            }  else {
+                return finalScoreDiv.textContent = "It's a tie!"
+            }
+        };
+       
+        function resetGame() {
+            playerCounter = 0;
+            computerCounter = 0;
+            resultDiv.textContent = "";
+            parcialScoreDiv.textContent = "";
+            finalScoreDiv.textContent = "";
+        };
+
+        let resetButton = reset.addEventListener('click', () => {
+            resetGame();
+        });
+        
+    </script> 
+</body>
+</html>
